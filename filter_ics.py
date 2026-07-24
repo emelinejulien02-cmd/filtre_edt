@@ -52,12 +52,23 @@ def get_source_url(config: dict) -> str:
 
 
 def fetch_ics(url: str) -> bytes:
-    resp = requests.get(
-        url,
-        timeout=30,
-        headers={"User-Agent": "Mozilla/5.0 (compatible; EDT-filter/1.0)"},
-    )
-    resp.raise_for_status()
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/605.1.15 (KHTML, like Gecko) "
+            "Version/17.0 Safari/605.1.15"
+        ),
+        "Accept": "text/calendar,text/plain,*/*",
+        "Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8",
+    }
+    try:
+        resp = requests.get(url, timeout=30, headers=headers)
+        resp.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print(f"Échec de la récupération : {e}")
+        print(f"Code HTTP : {resp.status_code}")
+        print(f"Début de la réponse du serveur : {resp.text[:500]!r}")
+        raise
     return resp.content
 
 
