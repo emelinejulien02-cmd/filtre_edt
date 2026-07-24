@@ -1,3 +1,4 @@
 requests
 pyyaml
 icalendar
+curl_cffi
