@@ -1,0 +1,17 @@
+# Mots-clés (insensibles à la casse) recherchés dans le titre / la salle /
+# la description de chaque cours. Tout événement qui contient au moins un
+# de ces mots-clés est retiré du calendrier filtré.
+#
+# Exemple : pour masquer un groupe de TD et une matière optionnelle :
+# exclude_keywords:
+#   - "TD Groupe 3"
+#   - "Anglais LANSAD"
+#   - "Sport"
+
+exclude_keywords: []
+
+# Optionnel : URL source, uniquement pour un test EN LOCAL sur votre machine.
+# En production (GitHub Actions), l'URL doit être définie dans le secret
+# EDT_SOURCE_URL (Settings > Secrets and variables > Actions) et NE DOIT PAS
+# être écrite ici, car ce fichier est visible publiquement dans le dépôt.
+# source_url: ""

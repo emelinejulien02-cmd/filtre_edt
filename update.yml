@@ -1,0 +1,42 @@
+name: Mettre à jour l'emploi du temps filtré
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"   # toutes les 3 heures
+  workflow_dispatch: {}       # bouton "Run workflow" manuel
+  push:
+    branches: [main]
+    paths:
+      - "config.yaml"
+      - "filter_ics.py"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installer les dépendances
+        run: pip install -r requirements.txt
+
+      - name: Générer le calendrier filtré
+        env:
+          EDT_SOURCE_URL: ${{ secrets.EDT_SOURCE_URL }}
+        run: python filter_ics.py
+
+      - name: Commit et push si changement
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/edt_filtre.ics
+          git diff --staged --quiet || git commit -m "Mise à jour automatique de l'emploi du temps filtré"
+          git push
