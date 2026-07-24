@@ -8,7 +8,7 @@
 #   - "Anglais LANSAD"
 #   - "Sport"
 
-exclude_keywords: yaml
+exclude_keywords:
   - "Responsabilité et assurance"
   - "Droit international privé général"
   - "Droit du commerce électronique"
